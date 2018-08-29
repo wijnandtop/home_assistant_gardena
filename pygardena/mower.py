@@ -14,17 +14,14 @@ class GardenaSmartMower(GardenaSmartDevice):
     def park(self):
         self.send_command('park_until_further_notice')
 
-    # def get_mower_error(self):
-    #     abilities = objectpath.Tree(self.device_info[id]);
-    #     ability = objectpath.Tree(list(abilities.execute('$.abilities[@.type is robotic_mower]'))[0])
-    #     """Return error and last ts"""
-    #         return self.get_value_of_property('robotic_mower', 'status')
-    #     return (list(ability.execute('$.properties[@.name is error]'))[0]['value'], list(ability.execute('$.properties[@.name is timestamp_last_error_code]'))[0]['value'])
-
     def get_manual_operation(self):
         return self.get_value_of_property('robotic_mower', 'manual_operation')
     def get_status(self):
         return self.get_value_of_property('robotic_mower', 'status')
+    def get_error(self):
+        return self.get_value_of_property('robotic_mower', 'error')
+    def get_battery_charging(self):
+        return self.get_value_of_property('battery_power', 'charging')
     def get_last_error_code(self):
         return self.get_value_of_property('robotic_mower', 'last_error_code')
     def get_source_for_next_start(self):
@@ -45,6 +42,8 @@ class GardenaSmartMower(GardenaSmartDevice):
         #add mower specific details to device info
         device_info['manual_operation'] = self.get_manual_operation()
         device_info['status'] = self.get_status()
+        device_info['error'] = self.get_error()
+        device_info['battery_charging'] = self.get_battery_charging()
         device_info['last_error_code'] = self.get_last_error_code()
         device_info['source_for_next_start'] = self.get_source_for_next_start()
         device_info['timestamp_next_start'] = self.get_timestamp_next_start()
