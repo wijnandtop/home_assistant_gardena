@@ -19,14 +19,17 @@ class GardenaSmartSensor(GardenaSmartDevice):
     def get_light(self):
         return self.get_value_of_property('light_sensor', 'light')
 
-    def get_info(self):
+    def get_generic_info(self):
         device_info = super().get_info()
         #add sensor specific details to device info
         device_info['battery_status'] = self.get_battery_status()
+        return device_info
+
+    def get_info(self):
+        device_info = self.get_generic_info()
         device_info['ambient_temperature'] = self.get_ambient_temperature()
         device_info['ambient_frost_warning'] = self.get_ambient_frost_warning()
         device_info['soil_temperature'] = self.get_soil_temperature()
         device_info['soil_humidity'] = self.get_soil_humidity()
         device_info['light'] = self.get_light()
-
         return  device_info

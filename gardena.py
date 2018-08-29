@@ -23,6 +23,7 @@ _LOGGER = logging.getLogger(__name__)
 
 DOMAIN = 'gardena'
 GARDENA_MOWERS = 'gardena_smart_mowers'
+GARDENA_SENSORS = 'gardena_smart_sensors'
 GARDENA_LOGIN = 'gardena_login'
 
 CONFIG_SCHEMA = vol.Schema({
@@ -39,6 +40,7 @@ def setup(hass, config):
     _LOGGER.info('component gardena setup')
     # for component in ('vacuum','sensor'):
     discovery.load_platform(hass, 'vacuum', DOMAIN, {}, config)
+    discovery.load_platform(hass, 'sensor', DOMAIN, {}, config)
 
     return True
 
@@ -54,12 +56,13 @@ class GardenaHub:
 
         self.my_gardena = gardena(domain_config[CONF_USERNAME], domain_config[CONF_PASSWORD])
         self._hass.data[GARDENA_MOWERS] = self.my_gardena.get_all_mowers()
+        self._hass.data[GARDENA_SENSORS] = self.my_gardena.get_all_sensors()
 
     @Throttle(timedelta(seconds=300))
     def update_devices(self):
         """load all locations, locations will autoload their devices"""
         """Update the robot states, will be used by the seperate devices."""
+        self.my_gardena.update_devices()
         _LOGGER.debug("Running HUB.update_robots %s",
                       self._hass.data[GARDENA_MOWERS])
-        self.my_gardena.update_devices()
-        self._hass.data[GARDENA_MOWERS] = self.my_gardena.get_all_mowers()
+

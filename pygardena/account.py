@@ -68,3 +68,11 @@ class GardenaSmartAccount:
                 all_mowers.add(mower)
         return all_mowers
 
+    def get_all_sensors(self):
+        all_sensors = set()
+        for location in self.get_locations():
+            for mower in location.get_sensors():
+                all_sensors.add(mower)
+        return all_sensors
+
+

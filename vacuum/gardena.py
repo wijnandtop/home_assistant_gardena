@@ -45,8 +45,8 @@ class GardenaSmartMower(StateVacuumDevice):
         self._name = '{}'.format(self.robot.name)
 
     def update(self):
-        """Update the states of Neato Vacuums."""
-        _LOGGER.debug("Running Neato Vacuums update")
+        """Update the states of Gardena devices."""
+        _LOGGER.debug("Running Gardena update")
         self.gardena.update_devices()  # is a throttled update
 
     @property

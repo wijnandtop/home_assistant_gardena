@@ -1,0 +1,106 @@
+"""
+Gardena smart sensor which registeres a couple of sensors.
+
+@ todo something with documentation
+
+"""
+import logging
+from homeassistant.const import (
+    ATTR_BATTERY_LEVEL, TEMP_CELSIUS, DEVICE_CLASS_HUMIDITY,
+    DEVICE_CLASS_TEMPERATURE)
+from homeassistant.helpers.entity import Entity
+from custom_components.gardena import (GARDENA_SENSORS, GARDENA_LOGIN)
+
+_LOGGER = logging.getLogger(__name__)
+
+DEPENDENCIES = ['gardena']
+
+def setup_platform(hass, config, add_entities, discovery_info=None):
+    """Set up the Demo sensors."""
+    dev = []
+    for sensor in hass.data[GARDENA_SENSORS]:
+        dev.append(GardenaSmartAmbientTemperatureSensor(hass, sensor))
+        dev.append(GardenaSmartSoilTemperatureSensor(hass, sensor))
+        dev.append(GardenaSmartSoilHumiditySensor(hass, sensor))
+        # dev.append(GardenaSmartLightSensor(hass, sensor))
+    _LOGGER.debug("Adding gardena sensors as sensors %s", dev)
+    add_entities(dev, True)
+
+class GardenaSmartSensor(Entity):
+    """Representation of a Demo sensor."""
+
+    def __init__(self, hass, sensor):
+        """Initialize the sensor."""
+        self._sensor = sensor
+        self.gardena = hass.data[GARDENA_LOGIN]
+
+    def update(self):
+        """Update the states of Gardena devices."""
+        _LOGGER.debug("Running Gardena update")
+        self.gardena.update_devices()  # is a throttled update
+
+    @property
+    def should_poll(self):
+        """No polling needed for a  sensor."""
+        return False
+
+    @property
+    def device_class(self):
+        """Return the device class of the sensor."""
+        return self._device_class
+
+    @property
+    def name(self):
+        """Return the name of the sensor."""
+        return self._name
+
+    @property
+    def state(self):
+        """Return the state of the sensor."""
+        return self._state
+
+    @property
+    def unit_of_measurement(self):
+        """Return the unit this state is expressed in."""
+        return self._unit_of_measurement
+
+    @property
+    def device_state_attributes(self):
+        """Return the state attributes."""
+        self._sensor.get_generic_info()
+
+class GardenaSmartAmbientTemperatureSensor(GardenaSmartSensor):
+    def __init__(self, hass, sensor):
+        """Initialize the sensor."""
+        super().__init__(hass, sensor)
+        self._name = sensor.name + ' ambient temperature'
+        self._state = sensor.get_ambient_temperature()
+        self._device_class = DEVICE_CLASS_TEMPERATURE
+        self._unit_of_measurement = TEMP_CELSIUS
+
+class GardenaSmartSoilTemperatureSensor(GardenaSmartSensor):
+    def __init__(self, hass, sensor):
+        """Initialize the sensor."""
+        super().__init__(hass, sensor)
+        self._name = sensor.name + ' soil temperature'
+        self._state = sensor.get_soil_temperature()
+        self._device_class = DEVICE_CLASS_TEMPERATURE
+        self._unit_of_measurement = TEMP_CELSIUS
+
+class GardenaSmartSoilHumiditySensor(GardenaSmartSensor):
+    def __init__(self, hass, sensor):
+        """Initialize the sensor."""
+        super().__init__(hass, sensor)
+        self._name = sensor.name + ' soil humidity'
+        self._state = sensor.get_soil_humidity()
+        self._device_class = DEVICE_CLASS_HUMIDITY
+        self._unit_of_measurement = '%'
+
+class GardenaSmartLightSensor(GardenaSmartSensor):
+    def __init__(self, hass, sensor):
+        """Initialize the sensor."""
+        super().__init__(hass, sensor)
+        self._name = sensor.name + ' light'
+        self._state = sensor.get_light()
+        self._device_class = DEVICE_CLASS_ILLUMINANCE
+        self._unit_of_measurement = 'klx'
