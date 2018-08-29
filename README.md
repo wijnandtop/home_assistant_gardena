@@ -22,6 +22,10 @@ Device is registered as multiple sensors:
 * ambient temperature (sensor as class temperature)
 * frost warning (binary_sensor as class cold)
 
+## watering computer
+
+!Concern, will the irrigation control break this plugin, since this implementation only assumes one outlet?
+
 ## Usage
 
 Just copy the content of this repo to
