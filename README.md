@@ -1,15 +1,26 @@
 # Work in progress!
 #home_assistant_gardena
 
-Custom component to support Gardena smart devices.
+Custom component to support Gardena smart devices, all device will be automatically discovered.
 
 It supports the devices:
 
 ## Sileno smart mower
-It auto discovers mowers and adds them as a vacum cleaner.
+Mowers will be added as vacum cleaners.
 The vacum cleaner is the closest thing to a lawn mower, it has characteristics like a base station, being a robot, supports simular command (stop, start, dock) and has battery status.
 
 ![alt screenshot](https://raw.githubusercontent.com/wijnandtop/home_assistant_gardena/master/doc/screenshot1.png)
+
+
+## smart sensor 
+https://www.gardena.com/int/products/smart/smart-system/gardena-smart-sensor/967044801/
+Device is registered as multiple sensors:
+
+* soil temperature (sensor as class temperature)
+* soil humidity (sensor as class humidity)
+* light (sensor as class illuminance)
+* ambient temperature (sensor as class temperature)
+* frost warning (binary_sensor as class cold)
 
 ## Usage
 
@@ -34,7 +45,6 @@ Of course you need to make sure you have the secrets available.
 * Create separate pypi module for pygardena
 * submit component to home-assistant
     * Validate if all requirements are met 
-* support smart sensor https://www.gardena.com/int/products/smart/smart-system/gardena-smart-sensor/967044801/
 * support smart water control https://www.gardena.com/int/products/smart/smart-system/gardena-smart-water-control/967045101/
 * fetch garden image
 * nice lovelace display for a garden / location
