@@ -55,18 +55,23 @@ class GardenaSmartLocation:
         location_info['sunset'] = self.get_sunset()
         return location_info
 
-    def load_devices(self):
-        for device in self.raw_json:
-            self.devices.add(GardenaSmartMower(self, device))
-
     def get_devices(self):
         return self.devices
 
-    def update(self):
+    def update_devices(self):
         self.update_raw_data()
-        for device in self.devices:
+        for device in self.devices_mower:
             device.update()
-        self.discover()
+
+    def update_raw_data(self):
+        url = "https://smart.gardena.com/sg-1/devices"
+        params = (
+            ('locationId', self.id),
+        )
+        headers = self.gardena_hub.create_header(Token=self.gardena_hub.AuthToken)
+        response = self.gardena_hub.s.get(url, headers=headers, params=params)
+        response_data = json.loads(response.content.decode('utf-8'))
+        self.raw_devices = response_data
 
     def get_raw_device_data(self, device_id):
         for device in self.raw_json:
@@ -78,14 +83,7 @@ class GardenaSmartLocation:
         return self.devices_mower
 
     def load_devices(self):
-        url = "https://smart.gardena.com/sg-1/devices"
-        params = (
-            ('locationId', self.id),
-        )
-        headers = self.gardena_hub.create_header(Token=self.gardena_hub.AuthToken)
-        response = self.gardena_hub.s.get(url, headers=headers, params=params)
-        response_data = json.loads(response.content.decode('utf-8'))
-        self.raw_devices = response_data
+        self.update_raw_data()
         for device in self.raw_devices['devices']:
             if device['category'] == 'mower':
                 self.devices_mower.add(GardenaSmartMower(self, device))

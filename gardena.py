@@ -36,13 +36,7 @@ CONFIG_SCHEMA = vol.Schema({
 def setup(hass, config):
     """Set up the Gardena component."""
     hass.data[GARDENA_LOGIN] = GardenaHub(hass, config[DOMAIN], GardenaSmartAccount)
-    hub = hass.data[GARDENA_LOGIN]
     _LOGGER.info('component gardena setup')
-
-    # if not hub.login():
-    #     _LOGGER.debug("Failed to login to Gardena API")
-    #     return False
-    hub.update_devices()
     # for component in ('vacuum','sensor'):
     discovery.load_platform(hass, 'vacuum', DOMAIN, {}, config)
 
@@ -58,28 +52,14 @@ class GardenaHub:
         self._gardena = gardena
         self._hass = hass
 
-        self.my_gardena = gardena(
-            domain_config[CONF_USERNAME],
-            domain_config[CONF_PASSWORD]) # type: GardenaSmartAccount
+        self.my_gardena = gardena(domain_config[CONF_USERNAME], domain_config[CONF_PASSWORD])
         self._hass.data[GARDENA_MOWERS] = self.my_gardena.get_all_mowers()
-
-    # def login(self):
-    #     """Login to Gardena."""
-    #     try:
-    #         _LOGGER.debug("Trying to connect to Gardena API")
-    #         self.my_neato = self._gardena(
-    #             self.config[CONF_USERNAME], self.config[CONF_PASSWORD])
-    #         return True
-    #     except HTTPError:
-    #         _LOGGER.error("Unable to connect to Gardena API")
-    #         return False
 
     @Throttle(timedelta(seconds=300))
     def update_devices(self):
         """load all locations, locations will autoload their devices"""
-        self.my_gardena.load_locations()
         """Update the robot states, will be used by the seperate devices."""
         _LOGGER.debug("Running HUB.update_robots %s",
                       self._hass.data[GARDENA_MOWERS])
+        self.my_gardena.update_devices()
         self._hass.data[GARDENA_MOWERS] = self.my_gardena.get_all_mowers()
-        _LOGGER.info(self._hass.data[GARDENA_MOWERS])

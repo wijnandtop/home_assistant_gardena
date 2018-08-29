@@ -12,6 +12,7 @@ class GardenaSmartAccount:
         self.password = password
         self.update_authtokens()
 
+
     def load_locations(self):
         url = "https://smart.gardena.com/sg-1/locations/"
         params = (
@@ -24,11 +25,20 @@ class GardenaSmartAccount:
         for location in response_data['locations']:
             self.locations.add(GardenaSmartLocation(self, location))
 
+    def get_locations(self):
+        if len(self.locations) == 0:
+            self.load_locations()
+        return self.locations
+
     def get_raw_location_data(self, location_id):
         for location in self.raw_locations:
             if location.id == location_id:
                 return location
         # @todo trow exception if not found
+
+    def update_devices(self):
+        for location in self.locations:
+            location.update_devices()
 
     def create_header(self, Token=None, ETag=None):
         headers={
@@ -53,7 +63,7 @@ class GardenaSmartAccount:
 
     def get_all_mowers(self):
         all_mowers = set()
-        for location in self.locations:
+        for location in self.get_locations():
             for mower in location.get_mowers():
                 all_mowers.add(mower)
         return all_mowers
