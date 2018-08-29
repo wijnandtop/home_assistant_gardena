@@ -59,5 +59,4 @@ class GardenaSmartFrostWarningSensor(GardenaSmartBinarySensor):
 
     @property
     def is_on(self):
-        _LOGGER.warn('FETCHING BINARY GARDENA VALUE')
         return self._sensor.get_ambient_frost_warning() != NO_FROST
