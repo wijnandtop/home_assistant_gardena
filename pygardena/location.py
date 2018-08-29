@@ -1,5 +1,6 @@
 from custom_components.pygardena.account import *
 from custom_components.pygardena.mower import *
+from custom_components.pygardena.sensor import *
 import json
 
 
@@ -11,6 +12,7 @@ class GardenaSmartLocation:
         self.name = raw_data['name']
         self.id = raw_data['id']
         self.devices_mower = set()
+        self.devices_sensor = set()
         self.load_devices()
 
     def update(self):
@@ -55,9 +57,6 @@ class GardenaSmartLocation:
         location_info['sunset'] = self.get_sunset()
         return location_info
 
-    def get_devices(self):
-        return self.devices
-
     def update_devices(self):
         self.update_raw_data()
         for device in self.devices_mower:
@@ -82,10 +81,15 @@ class GardenaSmartLocation:
     def get_mowers(self):
         return self.devices_mower
 
+    def get_sensors(self):
+        return self.devices_sensor
+
     def load_devices(self):
         self.update_raw_data()
         for device in self.raw_devices['devices']:
             if device['category'] == 'mower':
                 self.devices_mower.add(GardenaSmartMower(self, device))
+            if device['category'] == 'sensor':
+                self.devices_sensor.add(GardenaSmartSensor(self, device))
 
 
