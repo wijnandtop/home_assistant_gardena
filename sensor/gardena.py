@@ -22,7 +22,7 @@ def setup_platform(hass, config, add_entities, discovery_info=None):
         dev.append(GardenaSmartAmbientTemperatureSensor(hass, sensor))
         dev.append(GardenaSmartSoilTemperatureSensor(hass, sensor))
         dev.append(GardenaSmartSoilHumiditySensor(hass, sensor))
-        # dev.append(GardenaSmartLightSensor(hass, sensor))
+        dev.append(GardenaSmartLightSensor(hass, sensor))
     _LOGGER.debug("Adding gardena sensors as sensors %s", dev)
     add_entities(dev, True)
 
@@ -55,11 +55,6 @@ class GardenaSmartSensor(Entity):
         return self._name
 
     @property
-    def state(self):
-        """Return the state of the sensor."""
-        return self._state
-
-    @property
     def unit_of_measurement(self):
         """Return the unit this state is expressed in."""
         return self._unit_of_measurement
@@ -74,33 +69,47 @@ class GardenaSmartAmbientTemperatureSensor(GardenaSmartSensor):
         """Initialize the sensor."""
         super().__init__(hass, sensor)
         self._name = sensor.name + ' ambient temperature'
-        self._state = sensor.get_ambient_temperature()
         self._device_class = DEVICE_CLASS_TEMPERATURE
         self._unit_of_measurement = TEMP_CELSIUS
+
+    @property
+    def state(self):
+        return self._sensor.get_ambient_temperature()
+
 
 class GardenaSmartSoilTemperatureSensor(GardenaSmartSensor):
     def __init__(self, hass, sensor):
         """Initialize the sensor."""
         super().__init__(hass, sensor)
         self._name = sensor.name + ' soil temperature'
-        self._state = sensor.get_soil_temperature()
         self._device_class = DEVICE_CLASS_TEMPERATURE
         self._unit_of_measurement = TEMP_CELSIUS
+
+    @property
+    def state(self):
+        return self._sensor.get_soil_temperature()
 
 class GardenaSmartSoilHumiditySensor(GardenaSmartSensor):
     def __init__(self, hass, sensor):
         """Initialize the sensor."""
         super().__init__(hass, sensor)
         self._name = sensor.name + ' soil humidity'
-        self._state = sensor.get_soil_humidity()
         self._device_class = DEVICE_CLASS_HUMIDITY
         self._unit_of_measurement = '%'
+
+    @property
+    def state(self):
+        return self._sensor.get_soil_humidity()
+
 
 class GardenaSmartLightSensor(GardenaSmartSensor):
     def __init__(self, hass, sensor):
         """Initialize the sensor."""
         super().__init__(hass, sensor)
         self._name = sensor.name + ' light'
-        self._state = sensor.get_light()
-        self._device_class = DEVICE_CLASS_ILLUMINANCE
-        self._unit_of_measurement = 'klx'
+        self._device_class = 'illuminance'
+        self._unit_of_measurement = 'lux'
+
+    @property
+    def state(self):
+        return self._sensor.get_light()
