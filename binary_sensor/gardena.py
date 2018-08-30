@@ -5,12 +5,16 @@ Gardena smart sensor which registeres a couple of sensors.
 
 """
 import logging
+from datetime import timedelta
+
 from homeassistant.components.binary_sensor import BinarySensorDevice
 from custom_components.gardena import (GARDENA_SENSORS, GARDENA_LOGIN)
 
 _LOGGER = logging.getLogger(__name__)
 
 DEPENDENCIES = ['gardena']
+
+SCAN_INTERVAL = timedelta(minutes=5)
 
 NO_FROST = 'no_frost'
 
@@ -36,11 +40,6 @@ class GardenaSmartBinarySensor(BinarySensorDevice):
         self.gardena.update_devices()  # is a throttled update
 
     @property
-    def should_poll(self):
-        """No polling needed for a  sensor."""
-        return False
-
-    @property
     def device_class(self):
         """Return the device class of the sensor."""
         return self._device_class
@@ -49,6 +48,12 @@ class GardenaSmartBinarySensor(BinarySensorDevice):
     def name(self):
         """Return the name of the sensor."""
         return self._name
+
+    @property
+    def device_state_attributes(self):
+        """Return the state attributes."""
+        return self._sensor.get_generic_info()
+
 
 class GardenaSmartFrostWarningSensor(GardenaSmartBinarySensor):
     def __init__(self, hass, sensor):

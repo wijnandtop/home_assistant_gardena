@@ -1,6 +1,8 @@
 from custom_components.pygardena.account import *
 import objectpath
+import logging
 
+_LOGGER = logging.getLogger(__name__)
 
 class GardenaSmartDevice:
     def __init__(self, location, raw_data):
@@ -18,10 +20,8 @@ class GardenaSmartDevice:
         return list(ability.execute('$.properties[@.name is '+property+']'))[0]['value']
 
     def update(self):
-        try:
-            self.raw_data = self.location.get_raw_device_data(self.id)
-        except:
-            return False  # failed to fetch new data.
+        _LOGGER.warn('update '+self.name+' id: '+self.id)
+        self.raw_data = self.location.get_raw_device_data(self.id)
 
     def get_category(self):
         return self.category

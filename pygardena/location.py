@@ -3,7 +3,9 @@ from custom_components.pygardena.mower import *
 from custom_components.pygardena.sensor import *
 from custom_components.pygardena.watering_computer import *
 import json
+import logging
 
+_LOGGER = logging.getLogger(__name__)
 
 class GardenaSmartLocation:
     def __init__(self, gardena_hub, raw_data):
@@ -63,6 +65,10 @@ class GardenaSmartLocation:
         self.update_raw_data()
         for device in self.devices_mower:
             device.update()
+        for device in self.devices_sensor:
+            device.update()
+        for device in self.devices_watering_computer:
+            device.update()
 
     def update_raw_data(self):
         url = "https://smart.gardena.com/sg-1/devices"
@@ -75,10 +81,10 @@ class GardenaSmartLocation:
         self.raw_devices = response_data
 
     def get_raw_device_data(self, device_id):
-        for device in self.raw_json:
-            if device.id == device_id:
+        for device in self.raw_devices['devices']:
+            if device['id'] == device_id:
                 return device
-        # @todo trow exception if not found
+        _LOGGER.warn('raw data not found for device: '+device_id)
 
     def get_mowers(self):
         return self.devices_mower

@@ -5,6 +5,8 @@ Gardena smart sensor which registeres a couple of sensors.
 
 """
 import logging
+from datetime import timedelta
+
 from homeassistant.const import (
     ATTR_BATTERY_LEVEL, TEMP_CELSIUS, DEVICE_CLASS_HUMIDITY,
     DEVICE_CLASS_TEMPERATURE)
@@ -14,6 +16,9 @@ from custom_components.gardena import (GARDENA_SENSORS, GARDENA_LOGIN)
 _LOGGER = logging.getLogger(__name__)
 
 DEPENDENCIES = ['gardena']
+
+SCAN_INTERVAL = timedelta(minutes=5)
+
 
 def setup_platform(hass, config, add_entities, discovery_info=None):
     """Set up the Demo sensors."""
@@ -40,11 +45,6 @@ class GardenaSmartSensor(Entity):
         self.gardena.update_devices()  # is a throttled update
 
     @property
-    def should_poll(self):
-        """No polling needed for a  sensor."""
-        return False
-
-    @property
     def device_class(self):
         """Return the device class of the sensor."""
         return self._device_class
@@ -62,7 +62,7 @@ class GardenaSmartSensor(Entity):
     @property
     def device_state_attributes(self):
         """Return the state attributes."""
-        self._sensor.get_generic_info()
+        return self._sensor.get_generic_info()
 
 class GardenaSmartAmbientTemperatureSensor(GardenaSmartSensor):
     def __init__(self, hass, sensor):

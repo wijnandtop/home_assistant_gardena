@@ -19,7 +19,7 @@ _LOGGER = logging.getLogger(__name__)
 
 # REQUIREMENTS = ['pybotvac==0.0.9']
 
-# _LOGGER.warn('component gardena bla')
+SCAN_INTERVAL = timedelta(minutes=5)
 
 DOMAIN = 'gardena'
 GARDENA_MOWERS = 'gardena_smart_mowers'
@@ -64,6 +64,5 @@ class GardenaHub:
         """load all locations, locations will autoload their devices"""
         """Update the robot states, will be used by the seperate devices."""
         self.my_gardena.update_devices()
-        _LOGGER.debug("Running HUB.update_robots %s",
-                      self._hass.data[GARDENA_MOWERS])
+        _LOGGER.debug("Running HUB.update_devices")
 
