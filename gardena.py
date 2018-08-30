@@ -24,6 +24,7 @@ SCAN_INTERVAL = timedelta(minutes=5)
 DOMAIN = 'gardena'
 GARDENA_MOWERS = 'gardena_smart_mowers'
 GARDENA_SENSORS = 'gardena_smart_sensors'
+GARDENA_WATERING_COMPUTERS = 'gardena_smart_watering_computers'
 GARDENA_LOGIN = 'gardena_login'
 
 CONFIG_SCHEMA = vol.Schema({
@@ -37,7 +38,7 @@ CONFIG_SCHEMA = vol.Schema({
 def setup(hass, config):
     """Set up the Gardena component."""
     hass.data[GARDENA_LOGIN] = GardenaHub(hass, config[DOMAIN], GardenaSmartAccount)
-    _LOGGER.info('component gardena setup')
+    _LOGGER.debug('component gardena setup')
     # for component in ('vacuum','sensor'):
     discovery.load_platform(hass, 'vacuum', DOMAIN, {}, config)
     discovery.load_platform(hass, 'sensor', DOMAIN, {}, config)
@@ -58,6 +59,7 @@ class GardenaHub:
         self.my_gardena = gardena(domain_config[CONF_USERNAME], domain_config[CONF_PASSWORD])
         self._hass.data[GARDENA_MOWERS] = self.my_gardena.get_all_mowers()
         self._hass.data[GARDENA_SENSORS] = self.my_gardena.get_all_sensors()
+        self._hass.data[GARDENA_WATERING_COMPUTERS] = self.my_gardena.get_all_watering_computers()
 
     @Throttle(timedelta(seconds=300))
     def update_devices(self):

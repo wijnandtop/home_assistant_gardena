@@ -20,7 +20,7 @@ class GardenaSmartDevice:
         return list(ability.execute('$.properties[@.name is '+property+']'))[0]['value']
 
     def update(self):
-        _LOGGER.warn('update '+self.name+' id: '+self.id)
+        _LOGGER.debug('update '+self.name+' id: '+self.id)
         self.raw_data = self.location.get_raw_device_data(self.id)
 
     def get_category(self):

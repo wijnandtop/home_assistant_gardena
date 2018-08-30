@@ -11,7 +11,7 @@ from homeassistant.const import (
     ATTR_BATTERY_LEVEL, TEMP_CELSIUS, DEVICE_CLASS_HUMIDITY,
     DEVICE_CLASS_TEMPERATURE)
 from homeassistant.helpers.entity import Entity
-from custom_components.gardena import (GARDENA_SENSORS, GARDENA_LOGIN)
+from custom_components.gardena import (GARDENA_SENSORS, GARDENA_WATERING_COMPUTERS, GARDENA_LOGIN)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -28,7 +28,10 @@ def setup_platform(hass, config, add_entities, discovery_info=None):
         dev.append(GardenaSmartSoilTemperatureSensor(hass, sensor))
         dev.append(GardenaSmartSoilHumiditySensor(hass, sensor))
         dev.append(GardenaSmartLightSensor(hass, sensor))
-    _LOGGER.debug("Adding gardena sensors as sensors %s", dev)
+    _LOGGER.debug("Adding gardena sensors as sensors")
+    for watering_computer in hass.data[GARDENA_WATERING_COMPUTERS]:
+        dev.append(GardenaSmartAmbientTemperatureSensor(hass, watering_computer))
+    _LOGGER.debug("Adding gardena watering computers as sensors")
     add_entities(dev, True)
 
 class GardenaSmartSensor(Entity):

@@ -8,7 +8,7 @@ import logging
 from datetime import timedelta
 
 from homeassistant.components.binary_sensor import BinarySensorDevice
-from custom_components.gardena import (GARDENA_SENSORS, GARDENA_LOGIN)
+from custom_components.gardena import (GARDENA_SENSORS, GARDENA_WATERING_COMPUTERS, GARDENA_LOGIN)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -23,6 +23,9 @@ def setup_platform(hass, config, add_entities, discovery_info=None):
     dev = []
     for sensor in hass.data[GARDENA_SENSORS]:
         dev.append(GardenaSmartFrostWarningSensor(hass, sensor))
+    for watering_computer in hass.data[GARDENA_WATERING_COMPUTERS]:
+        dev.append(GardenaSmartFrostWarningSensor(hass, watering_computer))
+
     _LOGGER.debug("Adding gardena sensors as binarysensors %s", dev)
     add_entities(dev, True)
 

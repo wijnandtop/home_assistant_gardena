@@ -71,8 +71,15 @@ class GardenaSmartAccount:
     def get_all_sensors(self):
         all_sensors = set()
         for location in self.get_locations():
-            for mower in location.get_sensors():
-                all_sensors.add(mower)
+            for sensor in location.get_sensors():
+                all_sensors.add(sensor)
+        return all_sensors
+
+    def get_all_watering_computers(self):
+        all_sensors = set()
+        for location in self.get_locations():
+            for watering_computer in location.get_watering_computers():
+                all_sensors.add(watering_computer)
         return all_sensors
 
 

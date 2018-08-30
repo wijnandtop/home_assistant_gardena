@@ -92,6 +92,9 @@ class GardenaSmartLocation:
     def get_sensors(self):
         return self.devices_sensor
 
+    def get_watering_computers(self):
+        return self.devices_watering_computer
+
     def load_devices(self):
         self.update_raw_data()
         for device in self.raw_devices['devices']:
