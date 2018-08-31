@@ -17,7 +17,7 @@ from custom_components.pygardena.account import *
 
 _LOGGER = logging.getLogger(__name__)
 
-# REQUIREMENTS = ['pybotvac==0.0.9']
+REQUIREMENTS = ['objectpath']
 
 SCAN_INTERVAL = timedelta(minutes=5)
 
