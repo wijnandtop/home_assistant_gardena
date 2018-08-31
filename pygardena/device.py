@@ -55,7 +55,9 @@ class GardenaSmartDevice:
 
         url = 'https://smart.gardena.com/sg-1/devices/' + self.id + '/abilities/' + self.category + '/command?locationId=' + self.location.id
         headers = self.location.gardena_hub.create_header(Token=self.location.gardena_hub.AuthToken)
-        self.location.gardena_hub.s.post(url, headers=headers, data=data)
+        response = self.location.gardena_hub.s.post(url, headers=headers, data=data)
+        _LOGGER.debug(response)
+        _LOGGER.debug(response.content.decode('utf-8'))
         # @todo, maybe check response and do some error handing?
 
 

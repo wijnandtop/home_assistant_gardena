@@ -1,5 +1,5 @@
 """
-Gardena smart sensor which registeres a couple of sensors.
+Gardena smart sensor which registers a couple of sensors.
 
 @ todo something with documentation
 
@@ -38,33 +38,27 @@ class GardenaSmartSensor(Entity):
     """Representation of a Demo sensor."""
 
     def __init__(self, hass, sensor):
-        """Initialize the sensor."""
         self._sensor = sensor
         self.gardena = hass.data[GARDENA_LOGIN]
 
     def update(self):
-        """Update the states of Gardena devices."""
         _LOGGER.debug("Running Gardena update")
         self.gardena.update_devices()  # is a throttled update
 
     @property
     def device_class(self):
-        """Return the device class of the sensor."""
         return self._device_class
 
     @property
     def name(self):
-        """Return the name of the sensor."""
         return self._name
 
     @property
     def unit_of_measurement(self):
-        """Return the unit this state is expressed in."""
         return self._unit_of_measurement
 
     @property
     def device_state_attributes(self):
-        """Return the state attributes."""
         return self._sensor.get_generic_info()
 
 class GardenaSmartAmbientTemperatureSensor(GardenaSmartSensor):

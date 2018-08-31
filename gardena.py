@@ -43,6 +43,7 @@ def setup(hass, config):
     discovery.load_platform(hass, 'vacuum', DOMAIN, {}, config)
     discovery.load_platform(hass, 'sensor', DOMAIN, {}, config)
     discovery.load_platform(hass, 'binary_sensor', DOMAIN, {}, config)
+    discovery.load_platform(hass, 'switch', DOMAIN, {}, config)
 
     return True
 

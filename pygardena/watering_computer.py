@@ -1,10 +1,15 @@
 from custom_components.pygardena.device import *
+import time
 
 class GardenaSmartWateringComputer(GardenaSmartDevice):
     def __init__(self, location, raw_data):
         super().__init__(location, raw_data)
-        self.category = "watering_computer"
+        self.category = "outlet"
+        self._valve_open = self.get_value_of_property('watering_outlet', 'valve_open')
 
+    def update(self):
+        super().update()
+        self._valve_open = self.get_value_of_property('watering_outlet', 'valve_open')
 
     def get_battery_status(self):
         return self.get_value_of_property('battery_power', 'disposable_battery_status')
@@ -13,19 +18,19 @@ class GardenaSmartWateringComputer(GardenaSmartDevice):
     def get_ambient_frost_warning(self):
         return self.get_value_of_property('ambient_temperature_sensor', 'frost_warning')
     def get_valve_open(self):
-        return self.get_valve_open('watering_outlet', 'valve_open')
+        return self._valve_open
     def get_manual_override(self):
-        return self.get_valve_open('watering_outlet', 'manual_override')
+        return self.get_value_of_property('watering_outlet', 'manual_override')
     def get_button_manual_override_time(self):
-        return self.get_valve_open('watering_outlet', 'button_manual_override_time')
+        return self.get_value_of_property('watering_outlet', 'button_manual_override_time')
     def get_last_manual_override_time(self):
-        return self.get_valve_open('watering_outlet', 'last_manual_override_time')
+        return self.get_value_of_property('watering_outlet', 'last_manual_override_time')
     def get_scheduled_watering_next_start(self):
-        return self.get_valve_open('scheduling', 'scheduled_watering_next_start')
+        return self.get_value_of_property('scheduling', 'scheduled_watering_next_start')
     def get_scheduled_watering_end(self):
-        return self.get_valve_open('scheduling', 'scheduled_watering_end')
+        return self.get_value_of_property('scheduling', 'scheduled_watering_end')
     def get_adaptive_scheduling_last_decision(self):
-        return self.get_valve_open('scheduling', 'adaptive_scheduling_last_decision')
+        return self.get_value_of_property('scheduling', 'adaptive_scheduling_last_decision')
 
     def get_generic_info(self):
         device_info = super().get_info()
@@ -48,6 +53,9 @@ class GardenaSmartWateringComputer(GardenaSmartDevice):
 
     def start(self, duration=30):
         self.send_command('manual_override', {'duration': duration})
+        self._valve_open = True
 
     def stop(self):
         self.send_command('cancel_override')
+        self._valve_open = False
+
