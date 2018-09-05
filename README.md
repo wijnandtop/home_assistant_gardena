@@ -43,6 +43,7 @@ gardena:
 ```
 
 Of course you need to make sure you have the secrets available.
+Note: this components is tested on a clean hass.io install and did work. A extra restart of hass may be needed (if you have the error "No module named 'wt'" in your logs).
 
 ##TODO
 
