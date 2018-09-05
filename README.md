@@ -46,7 +46,6 @@ Of course you need to make sure you have the secrets available.
 
 ##TODO
 
-* Create separate pypi module for pygardena
 * submit component to home-assistant
     * Validate if all requirements are met 
 * support smart water control https://www.gardena.com/int/products/smart/smart-system/gardena-smart-water-control/967045101/
