@@ -5,7 +5,6 @@ https://home-assistant.io/components/@todo
 """
 import logging
 from datetime import timedelta
-# from urllib.error import HTTPError
 
 import voluptuous as vol
 
@@ -13,11 +12,10 @@ import homeassistant.helpers.config_validation as cv
 from homeassistant.const import CONF_PASSWORD, CONF_USERNAME
 from homeassistant.helpers import discovery
 from homeassistant.util import Throttle
-from custom_components.pygardena.account import *
 
 _LOGGER = logging.getLogger(__name__)
 
-REQUIREMENTS = ['objectpath']
+REQUIREMENTS = ['wt.pygardena==0.9.3']
 
 SCAN_INTERVAL = timedelta(minutes=5)
 
@@ -37,6 +35,7 @@ CONFIG_SCHEMA = vol.Schema({
 
 def setup(hass, config):
     """Set up the Gardena component."""
+    from wt.pygardena.account import GardenaSmartAccount
     hass.data[GARDENA_LOGIN] = GardenaHub(hass, config[DOMAIN], GardenaSmartAccount)
     _LOGGER.debug('component gardena setup')
     # for component in ('vacuum','sensor'):
