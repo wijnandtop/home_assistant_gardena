@@ -1,13 +1,15 @@
-# Work in progress!
-#home_assistant_gardena
+# Home assistant Gardena Smart support
 
 Custom component to support Gardena smart devices, all device will be automatically discovered.
+It uses a seperate library (also written by me), this library has additional (intersting) details in it's documentation:
+https://github.com/wijnandtop/wt.pygardena
 
 It supports the devices:
 
 ## Sileno smart mower
 Mowers will be added as vacum cleaners.
 The vacum cleaner is the closest thing to a lawn mower, it has characteristics like a base station, being a robot, supports simular command (stop, start, dock) and has battery status.
+Start will trigger 24h of mowing.
 
 ![alt screenshot](https://raw.githubusercontent.com/wijnandtop/home_assistant_gardena/master/doc/screenshot1.png)
 
@@ -23,6 +25,10 @@ Device is registered as multiple sensors:
 * frost warning (binary_sensor as class cold)
 
 ## watering computer
+
+Supports:
+Start (triggers 30min of watering)
+Stop 
 
 !Concern, will the irrigation control break this plugin, since this implementation only assumes one outlet?
 
@@ -49,7 +55,6 @@ Note: this components is tested on a clean hass.io install and did work. A extra
 
 * submit component to home-assistant
     * Validate if all requirements are met 
-* support smart water control https://www.gardena.com/int/products/smart/smart-system/gardena-smart-water-control/967045101/
 * fetch garden image
 * nice lovelace display for a garden / location
 
