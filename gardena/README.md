@@ -34,7 +34,7 @@ Stop
 
 ## Usage
 
-Just copy the content of this repo to
+Just copy the content of this repository to (so including the "gardena" folder)
 
 ```
 [your home-assistant-path]/config/custom_components

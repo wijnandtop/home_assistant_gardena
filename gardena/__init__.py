@@ -15,7 +15,7 @@ from homeassistant.util import Throttle
 
 _LOGGER = logging.getLogger(__name__)
 
-REQUIREMENTS = ['wt.pygardena==0.9.5']
+REQUIREMENTS = ['wt.pygardena==0.9.6']
 
 SCAN_INTERVAL = timedelta(minutes=5)
 
