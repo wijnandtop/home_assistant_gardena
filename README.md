@@ -36,7 +36,7 @@ Stop
 
 ### Installation
 
-#### Installation via (HACS)[https://hacs.xyz/]
+#### Installation via [HACS](https://hacs.xyz/)
 Add the URL of this GitHub repository as custom repository (Community -> Settings -> Add custom repository).
 Then search for "Gardena smart devices" in the "Integrations" tab of HACS and install the integration.
 
