@@ -34,12 +34,20 @@ Stop
 
 ## Usage
 
-Just copy the content of this repository to (so including the "gardena" folder)
+### Installation
+
+#### Installation via (HACS)[https://hacs.xyz/]
+Add the URL of this GitHub repository as custom repository (Community -> Settings -> Add custom repository).
+Then search for "Gardena smart devices" in the "Integrations" tab of HACS and install the integration.
+
+#### "Manual" Installation
+Just copy the "gardena" folder to your 'custom_components' folder.
 
 ```
 [your home-assistant-path]/config/custom_components
 ```
 
+### Configuration
 Add these lines in your configuration.yml
 
 ```
