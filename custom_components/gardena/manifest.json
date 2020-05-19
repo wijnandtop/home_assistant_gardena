@@ -1,0 +1,12 @@
+{
+  "domain": "gardena",
+  "name": "Gardena smart devices",
+  "documentation": "https://github.com/wijnandtop/home_assistant_gardena",
+  "dependencies": [],
+  "codeowners": [
+    "@wijnandtop"
+  ],
+  "requirements": [
+    "wt.pygardena==0.9.6"
+  ]
+}

@@ -11,10 +11,10 @@ Mowers will be added as vacum cleaners.
 The vacum cleaner is the closest thing to a lawn mower, it has characteristics like a base station, being a robot, supports simular command (stop, start, dock) and has battery status.
 Start will trigger 24h of mowing.
 
-![alt screenshot](./README_screenshot1.png)
+<img src="https://github.com/wijnandtop/home_assistant_gardena/blob/master/README_screenshot1.png?raw=true" alt="Screenshot">
 
 
-## smart sensor 
+## smart sensor
 https://www.gardena.com/int/products/smart/smart-system/gardena-smart-sensor/967044801/
 Device is registered as multiple sensors:
 
@@ -28,18 +28,26 @@ Device is registered as multiple sensors:
 
 Supports:
 Start (triggers 30min of watering)
-Stop 
+Stop
 
 !Concern, will the irrigation control break this plugin, since this implementation only assumes one outlet?
 
 ## Usage
 
-Just copy the content of this repository to (so including the "gardena" folder)
+### Installation
+
+#### Installation via [HACS](https://hacs.xyz/)
+Add the URL of this GitHub repository as custom repository (Community -> Settings -> Add custom repository).
+Then search for "Gardena smart devices" in the "Integrations" tab of HACS and install the integration.
+
+#### "Manual" Installation
+Just copy the "gardena" folder to your 'custom_components' folder.
 
 ```
 [your home-assistant-path]/config/custom_components
 ```
 
+### Configuration
 Add these lines in your configuration.yml
 
 ```
@@ -54,14 +62,14 @@ Note: this components is tested on a clean hass.io install and did work. A extra
 ##TODO
 
 * submit component to home-assistant
-    * Validate if all requirements are met 
+    * Validate if all requirements are met
 * fetch garden image
 * nice lovelace display for a garden / location
 
 ## tested with:
- 
+
  * Mower: Sileno smart (the one with a working capacity of 1000m2)
- 
+
 ## not planned yet
 Since I do not own the devices.
 
@@ -69,6 +77,3 @@ Since I do not own the devices.
 * smart power adapter
 * smart battery
 * smart irrigation control (is on my wishlist)
-
-
-

@@ -1,0 +1,5 @@
+{
+  "name": "Gardena smart devices",
+  "domains": ["sensors", "switch", "vacuum"],
+  "render_readme": true
+}
