@@ -1,6 +1,6 @@
-# Depricated
+# Deprecated - no longer supported
 This project is no longer supported, it was build at a time when there was no official supported Gardena API.
-There is a new implementation, with realtime interaction and supporting all gardena devices:
+By now there is a new implementation, with realtime interaction and supporting all gardena devices:
 
 https://github.com/py-smart-gardena/hass-gardena-smart-system
 
