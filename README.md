@@ -1,3 +1,10 @@
+# Depricated
+This project is no longer supported, it was build at a time when there was no official supported Gardena API.
+There is a new implementation, with realtime interaction and supporting all gardena devices:
+
+https://github.com/py-smart-gardena/hass-gardena-smart-system
+
+
 # Home assistant Gardena Smart support
 
 Custom component to support Gardena smart devices, all device will be automatically discovered.
